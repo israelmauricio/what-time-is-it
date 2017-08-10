@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.validation.constraints.Pattern;;
+import javax.validation.constraints.Pattern;
 
 public class UserSignUp {
 	public String getEmail() {
