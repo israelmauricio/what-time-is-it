@@ -8,15 +8,18 @@ import javax.validation.ValidationException;
 import org.junit.Test;
 
 import com.aserta.business.entities.UserSignUp;
-import com.aserta.business.layer.UserSignUpProcessor;
+import com.aserta.business.layer.UserSignUpService;
+import com.aserta.repository.mocks.MockUsersRepository;
 
-public class UserSignUpProcessorTests {
+public class UserSignUpServiceTests {
 	
 	private static final int MAX_EMAIL_LENGTH = 60;
 
 	@Test
 	public void executeShouldSucceed() throws Exception {
 		// arrange
+		MockUsersRepository mockUsersRepository = new MockUsersRepository();
+		
 		UserSignUp userSignUp = new UserSignUp();
 		userSignUp.setEmail("franl@bside.com.mx");
 		userSignUp.setFullname("Francisco Javier Banos Lemoine");
@@ -25,8 +28,8 @@ public class UserSignUpProcessorTests {
 		userSignUp.setBirthdate(LocalDate.of(1962, 10, 10));
 		
 		// act
-		UserSignUpProcessor processor = new UserSignUpProcessor();
-		processor.execute(userSignUp);
+		UserSignUpService service = new UserSignUpService(mockUsersRepository);
+		service.execute(userSignUp);
 		
 		// assert
 	}
@@ -42,8 +45,8 @@ public class UserSignUpProcessorTests {
 		userSignUp.setBirthdate(LocalDate.of(1962, 10, 10));
 		
 		// act
-		UserSignUpProcessor processor = new UserSignUpProcessor();
-		processor.execute(userSignUp);
+		UserSignUpService service = new UserSignUpService(null);
+		service.execute(userSignUp);
 		
 		// assert		
 	}
@@ -64,8 +67,8 @@ public class UserSignUpProcessorTests {
 		userSignUp.setBirthdate(LocalDate.of(1962, 10, 10));
 		
 		// act
-		UserSignUpProcessor processor = new UserSignUpProcessor();
-		processor.execute(userSignUp);
+		UserSignUpService service = new UserSignUpService(null);
+		service.execute(userSignUp);
 		
 		// assert		
 	}
@@ -81,9 +84,28 @@ public class UserSignUpProcessorTests {
 		userSignUp.setBirthdate(LocalDate.of(1962, 10, 10));
 		
 		// act
-		UserSignUpProcessor processor = new UserSignUpProcessor();
-		processor.execute(userSignUp);
+		UserSignUpService service = new UserSignUpService(null);
+		service.execute(userSignUp);
 		
-		// assert		
+		// assert
+	}
+	
+	@Test(expected = EmailAlreadyRegisteredException.class)
+	public void executeShouldFailWhenEmailExists() throws EmailAlreadyRegisteredException {
+		// arrange
+		MockUsersRepository mockUsersRepository = new MockUsersRepository();
+		
+		UserSignUp userSignUp = new UserSignUp();
+		userSignUp.setEmail("no.existe@bside.com.mx");
+		userSignUp.setFullname("Francisco Javier Banos Lemoine");
+		userSignUp.setPassword("T0p5ecr3t");
+		userSignUp.setConfirmPassword("T0p5ecr3t");
+		userSignUp.setBirthdate(LocalDate.of(1962, 10, 10));
+		
+		// act
+		UserSignUpService service = new UserSignUpService(mockUsersRepository);
+		service.execute(userSignUp);
+		
+		// assert
 	}
 }
