@@ -16,7 +16,7 @@ public class UserSignUpService {
 		this.usersRepository = usersRepository;
 	}
 	
-	public void execute(UserSignUp userSignUp) throws EmailAlreadyRegisteredException {
+	public int execute(UserSignUp userSignUp) throws EmailAlreadyRegisteredException {
 		
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
@@ -29,6 +29,8 @@ public class UserSignUpService {
 		if(exists) {
 			throw new EmailAlreadyRegisteredException();
 		}
+		
+		return usersRepository.create(userSignUp);
 		
 	}
 

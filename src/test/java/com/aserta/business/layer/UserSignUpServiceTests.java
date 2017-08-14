@@ -1,5 +1,7 @@
 package com.aserta.business.layer;
 
+import static org.junit.Assert.assertEquals;
+
 import java.time.LocalDate;
 import java.util.Arrays;
 
@@ -35,9 +37,11 @@ public class UserSignUpServiceTests {
 		
 		// act
 		UserSignUpService service = new UserSignUpService(mockUsersRepository);
-		service.execute(userSignUp);
+		int actual = service.execute(userSignUp);
 		
 		// assert
+		int expected = 1;
+		assertEquals(expected, actual);
 	}
 	
 	@Test(expected = ValidationException.class)
