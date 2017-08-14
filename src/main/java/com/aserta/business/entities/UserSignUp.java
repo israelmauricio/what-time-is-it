@@ -7,6 +7,16 @@ import javax.validation.constraints.Size;
 import javax.validation.constraints.Pattern;
 
 public class UserSignUp {
+	@NotNull
+	@Size(max = 60)
+	@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")
+	private String email;
+	
+	private String fullname;
+	private String password;
+	private String confirmPassword;
+	private LocalDate birthdate;
+
 	public String getEmail() {
 		return email;
 	}
@@ -36,15 +46,5 @@ public class UserSignUp {
 	}
 	public void setBirthdate(LocalDate birthdate) {
 		this.birthdate = birthdate;
-	}
-	
-	@NotNull
-	@Size(max = 60)
-	@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")
-	private String email;
-	
-	private String fullname;
-	private String password;
-	private String confirmPassword;
-	private LocalDate birthdate;
+	}	
 }
