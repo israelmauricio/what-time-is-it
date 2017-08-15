@@ -1,10 +1,5 @@
 package com.aserta.business.layer;
 
-import javax.validation.Validation;
-import javax.validation.ValidationException;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
 import com.aserta.business.entities.UserSignUp;
 import com.aserta.data.interfaces.IUsersRepository;
 
@@ -16,7 +11,7 @@ public class UserSignUpService {
 		this.usersRepository = usersRepository;
 	}
 	
-	public int execute(UserSignUp userSignUp) throws EmailAlreadyRegisteredException {
+	public int execute(UserSignUp userSignUp) throws EmailAlreadyRegisteredException, Exception {
 
 		userSignUp.validate();
 		

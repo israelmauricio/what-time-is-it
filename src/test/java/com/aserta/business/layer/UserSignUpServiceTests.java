@@ -84,7 +84,7 @@ public class UserSignUpServiceTests {
 	}
 	
 	@Test(expected = EmailAlreadyRegisteredException.class)
-	public void executeShouldFailWhenEmailExists() throws EmailAlreadyRegisteredException {
+	public void executeShouldFailWhenEmailExists() throws EmailAlreadyRegisteredException, Exception {
 		// arrange
 		MockUsersRepository mockUsersRepository = new MockUsersRepository();
 		

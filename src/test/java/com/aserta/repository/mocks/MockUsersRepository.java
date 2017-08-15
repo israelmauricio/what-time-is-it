@@ -7,7 +7,12 @@ import com.aserta.data.interfaces.IUsersRepository;
 public class MockUsersRepository implements IUsersRepository {
 
 	@Override
-	public boolean exists(String email) {
+	public boolean exists(String email) throws Exception {
+		
+		if(email.equals("crash@domain.com")) {
+			throw new Exception();
+		}
+		
 		if (email.equals("no.existe@bside.com.mx")) {
 			return true;
 		} else {

@@ -1,31 +1,36 @@
 package com.aserta.business.layer;
 
-import javax.validation.Validation;
-import javax.validation.ValidationException;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
 import com.aserta.business.entities.UserSignIn;
 import com.aserta.data.interfaces.IUsersRepository;
+import com.aserta.operational.management.ILogger;
 
 public class UserSignInService {
 	private IUsersRepository usersRepository;
-	
-	public UserSignInService(IUsersRepository usersRepository) {
+	private ILogger logger;
+
+	public UserSignInService(IUsersRepository usersRepository, ILogger logger) {
 		this.usersRepository = usersRepository;
+		this.logger = logger;
 	}
-	
+
 	public String execute(UserSignIn userSignIn) throws InvalidEmailOrPasswordException {
 
 		userSignIn.validate();
 
-		String fullname = usersRepository.verify(userSignIn);
+		try {
+			String fullname = usersRepository.verify(userSignIn);
+
+			if (fullname == null) {
+				throw new InvalidEmailOrPasswordException();
+			}
+
+			return fullname;
+		} catch (Exception ex) {
+			
+			logger.error(ex);
+			throw ex;
 		
-		if(fullname == null) {
-			throw new InvalidEmailOrPasswordException();
 		}
-		
-		return fullname;
 	}
 
 }
