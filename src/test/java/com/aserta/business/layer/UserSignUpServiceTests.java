@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import com.aserta.business.entities.UserSignUp;
 import com.aserta.business.layer.UserSignUpService;
+import com.aserta.repository.mocks.MockLogger;
 import com.aserta.repository.mocks.MockUsersRepository;
 
 public class UserSignUpServiceTests {
@@ -34,9 +35,10 @@ public class UserSignUpServiceTests {
 	public void executeShouldSucceed() throws Exception {
 		// arrange
 		MockUsersRepository mockUsersRepository = new MockUsersRepository();
+		MockLogger mockLogger = new MockLogger();
 		
 		// act
-		UserSignUpService service = new UserSignUpService(mockUsersRepository);
+		UserSignUpService service = new UserSignUpService(mockUsersRepository, mockLogger);
 		int actual = service.execute(userSignUp);
 		
 		// assert
@@ -47,10 +49,11 @@ public class UserSignUpServiceTests {
 	@Test(expected = ValidationException.class)
 	public void executeShouldFailWhenEmailIsNull() throws Exception {
 		// arrange
+		MockLogger mockLogger = new MockLogger();
 		userSignUp.setEmail(null);
 		
 		// act
-		UserSignUpService service = new UserSignUpService(null);
+		UserSignUpService service = new UserSignUpService(null, mockLogger);
 		service.execute(userSignUp);
 		
 		// assert		
@@ -59,13 +62,15 @@ public class UserSignUpServiceTests {
 	@Test(expected = ValidationException.class)
 	public void executeShouldFailWhenEmailIsGreaterThan60Characters() throws Exception {
 		// arrange
+		MockLogger mockLogger = new MockLogger();
+
 		char[] localPart = new char[MAX_EMAIL_LENGTH];
 		Arrays.fill(localPart, 'a');
 		String email = new String(localPart) + "@domain.com";
 		userSignUp.setEmail(email);
 		
 		// act
-		UserSignUpService service = new UserSignUpService(null);
+		UserSignUpService service = new UserSignUpService(null, mockLogger);
 		service.execute(userSignUp);
 		
 		// assert		
@@ -74,10 +79,12 @@ public class UserSignUpServiceTests {
 	@Test(expected = ValidationException.class)
 	public void executeShouldFailWhenEmailHasAnInvalidFormat() throws Exception {
 		// arrange
+		MockLogger mockLogger = new MockLogger();
+
 		userSignUp.setEmail("Hello, world!");
 		
 		// act
-		UserSignUpService service = new UserSignUpService(null);
+		UserSignUpService service = new UserSignUpService(null, mockLogger);
 		service.execute(userSignUp);
 		
 		// assert
@@ -87,11 +94,12 @@ public class UserSignUpServiceTests {
 	public void executeShouldFailWhenEmailExists() throws EmailAlreadyRegisteredException, Exception {
 		// arrange
 		MockUsersRepository mockUsersRepository = new MockUsersRepository();
-		
+		MockLogger mockLogger = new MockLogger();
+
 		userSignUp.setEmail("no.existe@bside.com.mx");
 		
 		// act
-		UserSignUpService service = new UserSignUpService(mockUsersRepository);
+		UserSignUpService service = new UserSignUpService(mockUsersRepository, mockLogger);
 		service.execute(userSignUp);
 		
 		// assert
