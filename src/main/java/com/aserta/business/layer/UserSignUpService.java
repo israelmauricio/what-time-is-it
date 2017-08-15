@@ -17,13 +17,8 @@ public class UserSignUpService {
 	}
 	
 	public int execute(UserSignUp userSignUp) throws EmailAlreadyRegisteredException {
-		
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();
 
-		if (!validator.validate(userSignUp).isEmpty()) {
-			throw new ValidationException();
-		}
+		userSignUp.validate();
 		
 		boolean exists = usersRepository.exists(userSignUp.getEmail());
 		if(exists) {

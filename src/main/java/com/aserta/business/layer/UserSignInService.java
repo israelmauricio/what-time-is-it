@@ -16,13 +16,8 @@ public class UserSignInService {
 	}
 	
 	public String execute(UserSignIn userSignIn) throws InvalidEmailOrPasswordException {
-		
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();
 
-		if (!validator.validate(userSignIn).isEmpty()) {
-			throw new ValidationException();
-		}
+		userSignIn.validate();
 
 		String fullname = usersRepository.verify(userSignIn);
 		
