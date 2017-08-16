@@ -1,10 +1,11 @@
 package com.aserta.business.layer;
 
 import com.aserta.business.entities.UserSignUp;
+import com.aserta.business.interfaces.IUserSignUpService;
 import com.aserta.data.interfaces.IUsersRepository;
 import com.aserta.operational.management.ILogger;
 
-public class UserSignUpService {
+public class UserSignUpService implements IUserSignUpService {
 	
 	private IUsersRepository usersRepository;
 	private ILogger logger;
@@ -18,12 +19,18 @@ public class UserSignUpService {
 
 		userSignUp.validate();
 		
-		boolean exists = usersRepository.exists(userSignUp.getEmail());
-		if(exists) {
-			throw new EmailAlreadyRegisteredException();
+		try {
+			boolean exists = usersRepository.exists(userSignUp.getEmail());
+
+			if(exists) {
+				throw new EmailAlreadyRegisteredException();
+			}
+			
+			return usersRepository.create(userSignUp);
+		} catch (Exception ex) {
+			logger.error(ex);
+			throw ex;
 		}
-		
-		return usersRepository.create(userSignUp);
 		
 	}
 
