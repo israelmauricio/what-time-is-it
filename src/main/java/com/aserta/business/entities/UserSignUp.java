@@ -1,6 +1,7 @@
 package com.aserta.business.entities;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -15,7 +16,7 @@ public class UserSignUp extends EntityBase {
 	private String fullname;
 	private String password;
 	private String confirmPassword;
-	private LocalDate birthdate;
+	private Date birthdate;
 
 	public String getEmail() {
 		return email;
@@ -41,10 +42,12 @@ public class UserSignUp extends EntityBase {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
-	public LocalDate getBirthdate() {
+	public Date getBirthdate() {
 		return birthdate;
 	}
-	public void setBirthdate(LocalDate birthdate) {
+	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;
-	}	
+	}
+
+	
 }

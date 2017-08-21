@@ -1,5 +1,9 @@
 package com.aserta.ws.controllers;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,5 +32,16 @@ public class UserController {
 		return new ResponseEntity<Integer>(userId, HttpStatus.OK);
 	
 	}
+	
+	@RequestMapping(path = "/ws/isra", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public  ResponseEntity<Date> isra() {
+	
+		GregorianCalendar calendar= new GregorianCalendar(1980,5,27);
+		System.out.println(calendar.getTime());
+		return new ResponseEntity<Date>(calendar.getTime(),HttpStatus.OK);
+		
+	
+	}
+	
 	
 }

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 
 import javax.validation.ValidationException;
 
@@ -25,8 +26,10 @@ public class UserSignUpServiceTests {
         userSignUp.setEmail("franl@bside.com.mx");
 		userSignUp.setFullname("Francisco Javier Banos Lemoine");
 		userSignUp.setPassword("T0p5ecr3t");
-		userSignUp.setConfirmPassword("T0p5ecr3t");
-		userSignUp.setBirthdate(LocalDate.of(1962, 10, 10));
+		userSignUp.setConfirmPassword("T0p5ecr3t");	
+		
+		GregorianCalendar calendar= new GregorianCalendar(1980,5,27);
+		userSignUp.setBirthdate(calendar.getTime());
 	}
 	
 	private static final int MAX_EMAIL_LENGTH = 60;
